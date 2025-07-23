@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { motion } from "framer-motion";
 import { Bar, Doughnut } from "react-chartjs-2";
 import { Chart, BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend, Filler } from "chart.js";
 import { FaUsers, FaUserCheck, FaFileAlt, FaClock, FaDownload, FaChartBar } from "react-icons/fa";
@@ -229,17 +228,21 @@ const doughnutOptions = {
     document.body.removeChild(link);
   };
 
-  const handleExportUsers = () => {
-    setExporting(true);
-    const userData = filteredUsers.map(user => ({
-      Name: user.name,
-      Email: user.email,
-      Role: user.role,
-      'Created At': new Date(user.createdAt).toLocaleDateString()
-    }));
-    exportToCSV(userData, `users_${new Date().toISOString().split('T')[0]}.csv`);
-    setExporting(false);
-  };
+const handleExportUsers = () => {
+  setExporting(true);
+  
+  const userData = filteredUsers.map(user => ({
+    Name: user.name,
+    Email: user.email,
+    Role: user.role,
+    'Created At': new Date(user.createdAt).toLocaleDateString()
+  }));
+
+  exportToCSV(userData, `users_${new Date().toISOString().split('T')[0]}.csv`);
+  
+  setExporting(false);
+};
+
 
   const handleExportAnalytics = () => {
     setExporting(true);
@@ -562,4 +565,4 @@ const doughnutOptions = {
   );
 }
 
-export default AdminDashboard; 
+export default AdminDashboard;

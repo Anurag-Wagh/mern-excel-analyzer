@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AnimatedChart from "../components/AnimatedChart";
-import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -49,11 +48,6 @@ function Dashboard() {
   useEffect(() => {
     fetchHistory();
   }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];

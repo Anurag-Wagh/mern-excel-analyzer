@@ -1,6 +1,5 @@
 import  { useRef, useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import AnimatedChart from "../components/AnimatedChart";
 import toast from "react-hot-toast";
 import jsPDF from "jspdf";
@@ -30,7 +29,6 @@ function Dashboard() {
   const [yAxis, setYAxis] = useState("");
   const [chartType, setChartType] = useState("bar");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
   const [visibleRows, setVisibleRows] = useState(10);
   const [chartTitle, setChartTitle] = useState("");
   const [chartColor, setChartColor] = useState("#a78bfa");

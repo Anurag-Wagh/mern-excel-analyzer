@@ -2,7 +2,6 @@ import  { useEffect, useState } from "react";
 import axios from "axios";
 
 function Profile() {
-  const [user, setUser] = useState({ name: "", email: "" });
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
@@ -17,7 +16,6 @@ function Profile() {
       const res = await axios.get("http://localhost:5000/api/auth/me", {
         headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
       });
-      setUser(res.data);
       setForm({ name: res.data.name, email: res.data.email, password: "" });
     } catch (err) {
       setError("Failed to load profile.");
@@ -41,7 +39,6 @@ function Profile() {
         }
       });
       setSuccess("Profile updated successfully!");
-      setUser({ name: form.name, email: form.email });
       setForm({ ...form, password: "" });
     } catch (err) {
       setError(err.response?.data?.msg || "Update failed");

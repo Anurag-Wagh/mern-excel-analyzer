@@ -13,7 +13,7 @@ function Profile() {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/auth/me", {
+      const res = await axios.get("https://mern-excel-analyzer.onrender.com/api/auth/me", {
         headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
       });
       setForm({ name: res.data.name, email: res.data.email, password: "" });
@@ -32,7 +32,7 @@ function Profile() {
     setError("");
     setSuccess("");
     try {
-      await axios.put("http://localhost:5000/api/auth/me", form, {
+      await axios.put("https://mern-excel-analyzer.onrender.com/api/auth/me", form, {
         headers: {
           "Authorization": "Bearer " + localStorage.getItem("token"),
           "Content-Type": "application/json"

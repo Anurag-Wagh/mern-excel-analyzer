@@ -6,10 +6,8 @@ const API = axios.create({
     : 'http://localhost:5000'
 });
 
-export default API;
-
 // Add request interceptor to include auth token
-axios.interceptors.request.use(
+API.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -23,7 +21,7 @@ axios.interceptors.request.use(
 );
 
 // Add response interceptor to handle auth errors
-axios.interceptors.response.use(
+API.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
@@ -35,4 +33,4 @@ axios.interceptors.response.use(
   }
 );
 
-export default axios; 
+export default API;

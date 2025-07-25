@@ -33,14 +33,6 @@ app.use('/api/admin', require('./routes/admin'));
 app.get('/api/protected', auth, (req, res) => {
   res.json({ msg: 'Protected route accessed', user: req.user });
 });
-// Serve static files from the React app in production
-const path = require('path');
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.resolve(__dirname, '../client/build')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-  });
-}
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

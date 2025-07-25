@@ -33,14 +33,14 @@ app.use('/api/admin', require('./routes/admin'));
 app.get('/api/protected', auth, (req, res) => {
   res.json({ msg: 'Protected route accessed', user: req.user });
 });
-// Serve static files from the React app
+// Serve static files from the React app in production
 const path = require('path');
-app.use(express.static(path.join(__dirname, '../client/build')));
-
-// The "catchall" handler: for any request that doesn't match an API route, send back React's index.html file.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.resolve(__dirname, '../client/build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+  });
+}
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

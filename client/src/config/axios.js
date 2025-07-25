@@ -1,7 +1,12 @@
 import axios from 'axios';
 
-// Set base URL for all API requests
-axios.defaults.baseURL = 'http://localhost:5000';
+const API = axios.create({
+  baseURL: process.env.NODE_ENV === 'production'
+    ? 'https://mern-excel-analyzer.onrender.com'
+    : 'http://localhost:5000'
+});
+
+export default API;
 
 // Add request interceptor to include auth token
 axios.interceptors.request.use(

@@ -14,16 +14,11 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: [
-    'https://mern-excel-analyzer.vercel.app',
-    'http://localhost:3000',
-    process.env.FRONTEND_URL // Allow environment variable for frontend URL
-  ].filter(Boolean), // Remove undefined values
+  origin: true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.options('*', cors());
 
 // Increase payload size limit for file uploads
 app.use(express.json({ limit: '10mb' }));
@@ -57,6 +52,11 @@ app.use('/api/admin', require('./routes/admin'));
 // Protected test route
 app.get('/api/protected', auth, (req, res) => {
   res.json({ msg: 'Protected route accessed', user: req.user });
+});
+
+// Handle 404 - Keep this as the last route
+app.use((req, res) => {
+  res.status(404).json({ msg: 'Route not found' });
 });
 
 const PORT = process.env.PORT || 5000;

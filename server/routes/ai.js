@@ -1,11 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const { OpenAI } = require('openai');
 const auth = require('../middleware/auth');
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let openai;
+try {
+  const { OpenAI } = require('openai');
+  if (process.env.OPENAI_API_KEY) {
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+} catch (error) {
+  console.log('OpenAI not configured, using mock responses');
+}
+
 // POST /api/ai/insights
 router.post('/insights', auth, async (req, res) => {
   const { columns, data } = req.body;
@@ -22,30 +30,31 @@ Data (first 10 rows): ${JSON.stringify(data.slice(0, 10))}
 
 Summary:
 `;
- /* try {
-    const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: prompt }],
-      max_tokens: 300,
-      temperature: 0.7,
-    });
-    const aiText = completion.choices[0].message.content.trim();
-    res.json({ insights: aiText });
-  } catch (err) {
-console.error("AI Insights Error:", err);
-    res.status(500).json({ msg: 'AI analysis failed', error: err.message });
-  }*/try {
+  try {
+    if (openai) {
+      const completion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: prompt }],
+        max_tokens: 300,
+        temperature: 0.7,
+      });
+      const aiText = completion.choices[0].message.content.trim();
+      res.json({ insights: aiText });
+    } else {
   // Mock AI response for free usage
-  const aiText = `
-    This is a mock AI insight.
-    - Your data has ${data.length} rows and ${columns.length} columns.
-    - Example columns: ${columns.slice(0, 3).join(", ")}...
-    - (Add credits to your OpenAI account to get real AI insights!)
-  `;
-  res.json({ insights: aiText });
-} catch (err) {
- console.error("AI Insights Error:", err);
-  res.status(500).json({ msg: 'AI analysis failed', error: err.message });
-}
+      // Mock AI response when OpenAI is not configured
+      const aiText = `
+        This is a mock AI insight.
+        - Your data has ${data.length} rows and ${columns.length} columns.
+        - Example columns: ${columns.slice(0, 3).join(", ")}...
+        - (Add credits to your OpenAI account to get real AI insights!)
+      `;
+      res.json({ insights: aiText });
+    }
+  } catch (err) {
+    console.error("AI Insights Error:", err);
+    res.status(500).json({ msg: 'AI analysis failed', error: err.message });
+  }
 });
+
 module.exports = router;

@@ -14,10 +14,11 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: true,
+  origin: ['https://mern-excel-analyzer.vercel.app', 'http://localhost:3000'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Length', 'Authorization']
 }));
 
 // Increase payload size limit for file uploads

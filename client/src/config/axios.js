@@ -1,15 +1,14 @@
 import axios from 'axios';
 
 // Set base URL for all API requests - use environment variable or fallback
-const baseURL = process.env.REACT_APP_API_URL || (
-  process.env.NODE_ENV === 'production' 
-    ? 'https://mern-excel-analyzer.onrender.com'  // Your deployed backend URL
-    : 'http://localhost:5000'  // Local development
-);
+const baseURL = process.env.REACT_APP_API_URL || 'https://mern-excel-analyzer.onrender.com';
 
 console.log('API Base URL:', baseURL); // For debugging
 
+// Configure axios defaults
 axios.defaults.baseURL = baseURL;
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+axios.defaults.withCredentials = true;
 
 // Add request interceptor to include auth token
 axios.interceptors.request.use(

@@ -32,8 +32,10 @@ export const AuthProvider = ({ children }) => {
   const fetchUserProfile = async () => {
     try {
       const response = await axios.get('/api/auth/me');
+      console.log('User profile response:', response.data); // Debug log
       setUser(response.data);
       setIsAdmin(response.data.role === 'admin');
+      console.log('Is admin after profile fetch:', response.data.role === 'admin'); // Debug log
     } catch (error) {
       console.error('Error fetching user profile:', error);
       // If token is invalid, remove it
@@ -47,7 +49,9 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await axios.post('/api/auth/login', { email, password });
-      const { token } = response.data;
+      const { token, user: userData } = response.data;
+      setUser(userData);
+      setIsAdmin(userData.role === 'admin');
       
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;

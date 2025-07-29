@@ -17,7 +17,6 @@ app.use(cors({
   origin: [
     'https://mern-excel-analyzer.vercel.app',
     'http://localhost:3000',
-    'https://your-frontend-domain.vercel.app', // Add your actual frontend domain
     process.env.FRONTEND_URL // Allow environment variable for frontend URL
   ].filter(Boolean), // Remove undefined values
   credentials: true,

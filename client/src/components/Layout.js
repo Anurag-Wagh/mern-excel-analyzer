@@ -4,18 +4,20 @@ import { NavLink, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaChartBar, FaUserShield, FaHistory, FaUser, FaMoon, FaSun } from "react-icons/fa";
 import { useDarkMode } from "../context/DarkModeContext";
+import { useAuth } from "../context/AuthContext";
 
-const navLinks = [
+const getNavLinks = (isAdmin) => [
   { to: "/dashboard", label: "Dashboard", icon: <FaChartBar /> },
   { to: "/history", label: "History", icon: <FaHistory /> },
   { to: "/profile", label: "Profile", icon: <FaUser /> },
-  { to: "/admin", label: "Admin Panel", icon: <FaUserShield /> },
-  // Add more links as needed
+  ...(isAdmin ? [{ to: "/admin", label: "Admin Panel", icon: <FaUserShield /> }] : []),
 ];
 
 export default function Layout() {
   const location = useLocation();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const { user } = useAuth();
+  const navLinks = getNavLinks(user?.role === 'admin');
 
   return (
     <div

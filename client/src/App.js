@@ -26,7 +26,11 @@ function App() {
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="history" element={<History />} />
                 <Route path="profile" element={<Profile />} />
-                <Route path="admin" element={<AdminDashboard />} />
+                <Route path="admin" element={
+                  <AdminRoute>
+                    <AdminDashboard />
+                  </AdminRoute>
+                } />
                 <Route path="*" element={<NotFound />} />
               </Route>
               <Route path="*" element={<NotFound />} />

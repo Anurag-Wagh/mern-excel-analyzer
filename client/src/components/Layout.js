@@ -17,9 +17,9 @@ export default function Layout() {
   const location = useLocation();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const { user } = useAuth();
-  console.log('Current user:', user); // Debug log
+  console.log('Current user in Layout:', user); // Debug log
   const isAdmin = user?.role === 'admin';
-  console.log('Is admin?', isAdmin); // Debug log
+  console.log('Is admin in Layout?', isAdmin, 'User role:', user?.role); // Enhanced debug log
   const navLinks = getNavLinks(isAdmin);
 
   return (

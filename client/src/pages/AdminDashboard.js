@@ -31,24 +31,35 @@ function AdminDashboard() {
 
   // Security: Redirect non-admins or non-logged-in users
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        console.log('Token payload:', payload); // Debug log
-        if (payload.user?.role !== "admin") {
-          toast.error("Access denied.");
-          navigate("/dashboard");
+    const checkAdminAccess = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          console.log('Token payload:', payload); // Debug log
+          
+          // Fetch current user profile to verify admin status
+          const response = await axios.get('/api/auth/me', {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          console.log('Current user profile:', response.data); // Debug log
+          
+          if (response.data.role !== "admin") {
+            toast.error("Access denied.");
+            navigate("/dashboard");
+          }
+        } catch (e) {
+          localStorage.removeItem("token");
+          toast.error("Invalid session. Please log in again.");
+          navigate("/login");
         }
-      } catch (e) {
-        localStorage.removeItem("token");
-        toast.error("Invalid session. Please log in again.");
+      } else {
+        toast.error("You must be logged in to view this page.");
         navigate("/login");
       }
-    } else {
-      toast.error("You must be logged in to view this page.");
-      navigate("/login");
-    }
+    };
+    
+    checkAdminAccess();
   }, [navigate]);
 
   // Data Fetching for Users and Analytics

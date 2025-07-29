@@ -27,6 +27,7 @@ function App() {
                 <Route path="history" element={<History />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="admin" element={<AdminDashboard />} />
+                <Route path="*" element={<NotFound />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

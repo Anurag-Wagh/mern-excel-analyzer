@@ -21,6 +21,15 @@ app.use(cors({
   exposedHeaders: ['Content-Length', 'Authorization']
 }));
 
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    timestamp: new Date(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
+
 // Increase payload size limit for file uploads
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));

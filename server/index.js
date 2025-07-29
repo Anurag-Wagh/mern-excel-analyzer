@@ -24,6 +24,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+app.options('*', cors());
 
 // Increase payload size limit for file uploads
 app.use(express.json({ limit: '10mb' }));

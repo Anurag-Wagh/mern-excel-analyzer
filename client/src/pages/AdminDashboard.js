@@ -59,8 +59,8 @@ function AdminDashboard() {
 
       const headers = { Authorization: `Bearer ${token}` };
 
-      const usersPromise = axios.get("http://localhost:5000/api/admin/users", { headers });
-      const analyticsPromise = axios.get("http://localhost:5000/api/admin/analytics", { headers });
+      const usersPromise = axios.get("/api/admin/users", { headers });
+      const analyticsPromise = axios.get("/api/admin/analytics", { headers });
 
       try {
         const [usersResponse, analyticsResponse] = await Promise.all([usersPromise, analyticsPromise]);
@@ -174,7 +174,7 @@ const doughnutOptions = {
     try {
       const token = localStorage.getItem("token");
       await axios.patch(
-        `http://localhost:5000/api/admin/users/${userId}/block`,
+        `/api/admin/users/${userId}/block`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -194,7 +194,7 @@ const doughnutOptions = {
     if (!window.confirm("Are you sure you want to permanently delete this user?")) return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/admin/users/${userId}`, {
+      await axios.delete(`/api/admin/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       toast.success("User deleted successfully.");

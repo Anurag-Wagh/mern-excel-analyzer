@@ -1,7 +1,15 @@
 import axios from 'axios';
 
-// Set base URL for all API requests
-axios.defaults.baseURL = 'http://localhost:5000';
+// Set base URL for all API requests - use environment variable or fallback
+const baseURL = process.env.REACT_APP_API_URL || (
+  process.env.NODE_ENV === 'production' 
+    ? 'https://mern-excel-analyzer.onrender.com'  // Your deployed backend URL
+    : 'http://localhost:5000'  // Local development
+);
+
+console.log('API Base URL:', baseURL); // For debugging
+
+axios.defaults.baseURL = baseURL;
 
 // Add request interceptor to include auth token
 axios.interceptors.request.use(

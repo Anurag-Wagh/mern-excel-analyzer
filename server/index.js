@@ -16,11 +16,36 @@ const app = express();
 app.use(cors({
   origin: [
     'https://mern-excel-analyzer.vercel.app',
-    'http://localhost:3000'
-  ],
-  credentials: true
+    'http://localhost:3000',
+    'https://your-frontend-domain.vercel.app', // Add your actual frontend domain
+    process.env.FRONTEND_URL // Allow environment variable for frontend URL
+  ].filter(Boolean), // Remove undefined values
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(express.json());
+
+// Increase payload size limit for file uploads
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err.message);
+  res.status(500).json({ 
+    msg: 'Server error', 
+    error: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error' 
+  });
+});
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
+});
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
@@ -35,4 +60,9 @@ app.get('/api/protected', auth, (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`MongoDB URI: ${process.env.MONGO_URI ? 'Set' : 'Not set'}`);
+  console.log(`JWT Secret: ${process.env.JWT_SECRET ? 'Set' : 'Not set'}`);
+});

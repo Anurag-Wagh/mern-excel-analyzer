@@ -36,7 +36,7 @@ function Dashboard() {
 
   const fetchHistory = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/history", {
+      const res = await axios.get("/api/history", {
         headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
       });
       setHistory(res.data);
@@ -85,7 +85,7 @@ function Dashboard() {
 
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/upload", formData, {
+      const res = await axios.post("/api/upload", formData, {
         headers: {
           "Authorization": "Bearer " + localStorage.getItem("token"),
           "Content-Type": "multipart/form-data",
@@ -112,7 +112,7 @@ function Dashboard() {
     setAiInsights("");
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/ai/insights",
+        "/api/ai/insights",
         { columns, data },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );

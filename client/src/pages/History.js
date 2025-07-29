@@ -12,7 +12,7 @@ function History() {
 
   const fetchHistory = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/history", {
+      const res = await axios.get("/api/history", {
         headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
       });
       setHistory(res.data);
@@ -23,7 +23,7 @@ function History() {
     if (!window.confirm("Are you sure you want to clear your entire history? This cannot be undone.")) return;
     setLoading(true);
     try {
-      await axios.delete("http://localhost:5000/api/history", {
+      await axios.delete("/api/history", {
         headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
       });
       setHistory([]);
@@ -42,7 +42,7 @@ function History() {
     if (!window.confirm("Are you sure you want to delete this entry?")) return;
     setLoading(true);
     try {
-      await axios.delete(`http://localhost:5000/api/history/${id}`, {
+      await axios.delete(`/api/history/${id}`, {
         headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
       });
       setHistory((prev) => prev.filter((item) => item._id !== id));

@@ -4,11 +4,12 @@ const axios = require('axios');
 const BACKEND_URL = 'https://mern-excel-analyzer.onrender.com'; // Updated backend URL
 const FRONTEND_URL = 'https://mern-excel-analyzer.vercel.app'; // Updated frontend URL
 
-// Test data
+// Test data for admin user
 const testUser = {
-  email: 'test@example.com',
-  password: 'testpassword123',
-  name: 'Test User'
+  email: 'anurag.admin@gmail.com',
+  password: 'Anurag@2103',
+  name: 'Wagh Anurag Arjun',
+  role: 'admin'  // This will create an admin user
 };
 
 async function testDeployment() {

@@ -35,6 +35,7 @@ function AdminDashboard() {
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
+        console.log('Token payload:', payload); // Debug log
         if (payload.user?.role !== "admin") {
           toast.error("Access denied.");
           navigate("/dashboard");

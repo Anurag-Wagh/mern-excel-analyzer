@@ -98,7 +98,17 @@ router.post('/login', async (req, res) => {
         console.error('JWT signing error:', err);
         throw err;
       }
-      res.json({ token });
+      // Send both token and user data
+      res.json({
+        token,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          createdAt: user.createdAt
+        }
+      });
     });
   } catch (err) {
     console.error('Login error:', err);

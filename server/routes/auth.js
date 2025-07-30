@@ -93,11 +93,19 @@ router.post('/login', async (req, res) => {
     await logActivity(user._id, 'login', 'User logged in successfully', req);
     
     const payload = { user: { id: user.id, role: user.role } };
+    console.log('Login - Creating token with payload:', payload); // Debug log
+
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' }, (err, token) => {
       if (err) {
         console.error('JWT signing error:', err);
         throw err;
       }
+      
+      console.log('Login - Sending response for user:', { 
+        id: user.id, 
+        role: user.role 
+      }); // Debug log
+      
       // Send both token and user data
       res.json({
         token,

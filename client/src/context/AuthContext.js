@@ -48,15 +48,30 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      console.log('Attempting login for:', email); // Debug log
+      console.log('Attempting login for:', email);
       const response = await axios.post('/api/auth/login', { email, password });
+      console.log('Login response:', response.data);
+      
       const { token, user: userData } = response.data;
+      
+      if (!token || !userData) {
+        console.error('Login response missing token or user data');
+        return { success: false, error: 'Invalid login response' };
+      }
+
+      console.log('Setting user data:', userData);
       setUser(userData);
       setIsAdmin(userData.role === 'admin');
+      console.log('Is admin after login:', userData.role === 'admin');
       
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       
+      // Verify the token was stored
+      const storedToken = localStorage.getItem('token');
+      console.log('Token stored successfully:', !!storedToken);
+      
+      // Fetch fresh profile data
       await fetchUserProfile();
       return { success: true };
     } catch (error) {

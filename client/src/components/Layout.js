@@ -15,11 +15,27 @@ const getNavLinks = (isAdmin) => [
 
 export default function Layout() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const { user } = useAuth();
-  console.log('Current user in Layout:', user); // Debug log
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.log('No token found, redirecting to login');
+      navigate('/login');
+    }
+  }, [navigate]);
+  const { user, loading } = useAuth();
+  
+  console.log('Layout render - Auth state:', { 
+    user, 
+    loading,
+    hasToken: !!localStorage.getItem('token')
+  });
+  
   const isAdmin = user?.role === 'admin';
-  console.log('Is admin in Layout?', isAdmin, 'User role:', user?.role); // Enhanced debug log
+  console.log('Is admin in Layout?', isAdmin, 'User role:', user?.role);
+  
   const navLinks = getNavLinks(isAdmin);
 
   return (

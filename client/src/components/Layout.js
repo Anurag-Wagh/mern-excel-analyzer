@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaChartBar, FaUserShield, FaHistory, FaUser, FaMoon, FaSun } from "react-icons/fa";
 import { useDarkMode } from "../context/DarkModeContext";

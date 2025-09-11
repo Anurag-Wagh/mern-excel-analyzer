@@ -41,7 +41,17 @@ function Login() {
             onChange={handleChange}
             required
           />
-           <style>backgroundImage: url('/bg(1).jpg')</style> 
+           <div 
+  style={{ 
+    backgroundImage: "url('/bg.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    height: "100vh"
+  }}
+>
+  {/* Your login form here */}
+</div>
+
           <div className="relative mb-4">
             <input
               className="w-full p-3 border-2 border-blue-100 rounded-lg focus:outline-none focus:border-indigo-400 bg-blue-50 placeholder-gray-400 pr-10"

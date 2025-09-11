@@ -26,7 +26,12 @@ function Login() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col items-center justify-center min-h-screen"   style={{ 
+    backgroundImage: "url('/bg.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    height: "100vh"
+  }}>
       <div className="bg-white/90 p-8 rounded-2xl shadow-2xl w-full max-w-md flex flex-col items-center">
         <FaUserCircle className="text-5xl text-indigo-400 mb-4" />
         <h2 className="text-3xl font-extrabold mb-2 text-indigo-700">Sign In</h2>
@@ -41,16 +46,7 @@ function Login() {
             onChange={handleChange}
             required
           />
-           <div 
-  style={{ 
-    backgroundImage: "url('/bg.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    height: "100vh"
-  }}
->
-  {/* Your login form here */}
-</div>
+          
 
           <div className="relative mb-4">
             <input

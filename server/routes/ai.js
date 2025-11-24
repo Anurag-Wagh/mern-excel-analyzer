@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
-const axios = require("axios");
-
 // FREE HuggingFace AI
 router.post("/insights", auth, async (req, res) => {
   const { columns, data } = req.body;

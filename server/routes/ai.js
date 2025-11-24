@@ -20,7 +20,8 @@ Summary:
   try {
     const HF_API = process.env.HF_API_KEY;
 
-    const model = "google/flan-t5-large";
+    const model = "mistralai/Mistral-7B-Instruct-v0.2";
+
 
     const result = await axios.post(
       `https://api-inference.huggingface.co/models/${model}`,
